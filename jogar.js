@@ -47,9 +47,11 @@ export async function jogar() {
 
             console.log(chalk.red(`Tentativas acabaram, o número era ${numeroAleatorio}`))
         }
+        
 
-    } catch {
+    } catch(error) {
         console.log('Programa encerrado pelo usuário ')
+        console.log(error)
     }
 
 }

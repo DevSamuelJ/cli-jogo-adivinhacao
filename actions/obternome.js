@@ -1,19 +1,19 @@
 import { select, input, confirm } from "@inquirer/prompts"
 import chalk from "chalk"
-import fs from "fs/promises"
-import path from "path"
-import { fileURLToPath } from "url"
+// import fs from "fs/promises"
+// import path from "path"
+// import { fileURLToPath } from "url"
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const caminho = path.join(__dirname, '../historico.json')
+// const __filename = fileURLToPath(import.meta.url)
+// const __dirname = path.dirname(__filename)
+// const caminho = path.join(__dirname, '../historico.json')
 
 export async function obterNomeDoJogador() {
     let historico = []
 
     try {
-        const conteudo = await fs.readFile(caminho, 'utf8')
-        historico = JSON.parse(conteudo)
+        const conteudo = await fetch("https://nodeproject-wizi.onrender.com/")
+            historico = await conteudo.json()
     } catch (err) {
         if (err.code !== 'ENOENT') {
             console.log(chalk.red(`Erro ao ler o histórico: ${err.message}`))
@@ -29,8 +29,8 @@ export async function obterNomeDoJogador() {
             message: chalk.cyan("Selecione seu nome ou crie um novo:"),
             choices: [
                 ...historico.map(j => ({
-                    name: `${j.nome} ${chalk.gray(`(recorde: ${j.tentativas} tentativa${j.tentativas > 1 ? 's' : ''})`)}`,
-                    value: j.nome
+                    name: `${j.player} ${chalk.gray(`(recorde: ${j.score} tentativa${j.score > 1 ? 's' : ''})`)}`,
+                    value: j.player
                 })),
                 { name: chalk.gray("➕ Usar um novo nome"), value: "__novo" }
             ]
